@@ -64,6 +64,7 @@ export default function BangkokPage() {
 
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
+      checkScroll();
 
     return () => {
       el.removeEventListener("scroll", checkScroll);
@@ -71,8 +72,20 @@ export default function BangkokPage() {
     };
   }, [products]);
 
-  const handleNext = () => scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
-  const handlePrev = () => scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+const handleNext = () => {
+  if (scrollRef.current) {
+    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    checkScroll();   
+  }
+};
+
+const handlePrev = () => {
+  if (scrollRef.current) {
+    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    checkScroll();  
+  }
+};
+
 
   if (loading) return <p className="p-6 text-center">Loading...</p>;
 

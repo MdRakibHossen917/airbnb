@@ -64,6 +64,7 @@ export default function LondonPage() {
 
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
+      checkScroll();
 
     return () => {
       el.removeEventListener("scroll", checkScroll);
@@ -71,8 +72,20 @@ export default function LondonPage() {
     };
   }, [products]);
 
-  const handleNext = () => scrollRef.current?.scrollBy({ left: 300, behavior: "smooth" });
-  const handlePrev = () => scrollRef.current?.scrollBy({ left: -300, behavior: "smooth" });
+ const handleNext = () => {
+  if (scrollRef.current) {
+    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    checkScroll();  
+  }
+};
+
+const handlePrev = () => {
+  if (scrollRef.current) {
+    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    checkScroll();   
+  }
+};
+
 
   if (loading) return <p className="p-6 text-center">Loading...</p>;
 
@@ -129,7 +142,7 @@ export default function LondonPage() {
                 {product.listing_type} in {product.location}
               </h2>
               <p className="text-gray-600 flex items-center">
-                {product.price}
+                ${product.price}
                 <span className="mx-2 text-xs text-gray-400">•</span>
                 <span className="text-gray-600 mr-1">★</span>
                 {product.rating.toFixed(2)}

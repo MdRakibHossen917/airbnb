@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
-type Product = {
+type Toronto = {
   _id: string;
   listing_type: string;
   price: string;
@@ -12,11 +12,12 @@ type Product = {
   location: string;
   tags: string[];
 };
+
 const HeartIcon = ({ filled = false, className = "" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
-    fill={filled ? "currentColor" : "#4B5563"}  
+    fill={filled ? "currentColor" : "#4B5563"}
     stroke="currentColor"
     strokeWidth="2"
     strokeLinecap="round"
@@ -27,9 +28,8 @@ const HeartIcon = ({ filled = false, className = "" }) => (
   </svg>
 );
 
-
-export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+export default function TorontoPage() {
+  const [products, setProducts] = useState<Toronto[]>([]);
   const [loading, setLoading] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -38,17 +38,16 @@ export default function ProductsPage() {
 
   const checkScroll = () => {
     const el = scrollRef.current;
-    if (el) {
-      setCanScrollLeft(el.scrollLeft > 0);
-      setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
-    }
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth);
   };
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/products");
-        const data: Product[] = await res.json();
+        const res = await fetch("/api/toronto");
+        const data: Toronto[] = await res.json();
         setProducts(data);
         setLoading(false);
       } catch (err) {
@@ -66,17 +65,8 @@ export default function ProductsPage() {
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
 
-    // check scroll after images load
-    const imgs = el.querySelectorAll("img");
-    let loadedCount = 0;
-    imgs.forEach((img) => {
-      if (img.complete) loadedCount++;
-      else img.addEventListener("load", () => {
-        loadedCount++;
-        if (loadedCount === imgs.length) checkScroll();
-      });
-    });
-    if (loadedCount === imgs.length) checkScroll();
+    // প্রথমবার load এর পর চেক করা
+    checkScroll();
 
     return () => {
       el.removeEventListener("scroll", checkScroll);
@@ -87,22 +77,24 @@ export default function ProductsPage() {
   const handleNext = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+      checkScroll();
     }
   };
 
   const handlePrev = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+      checkScroll();
     }
   };
 
   if (loading) return <p className="p-6 text-center">Loading...</p>;
 
   return (
-    <div className="px-5 pt-5 mt-44">
+    <div className="px-5">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold">Popular homes in Kuala Lumpur</h1>
-        <div className="flex space-x-2 mb-2">
+        <h1 className="text-xl font-bold">Available next month in Toronto</h1>
+        <div className="flex space-x-2">
           <button
             onClick={handlePrev}
             disabled={!canScrollLeft}
@@ -124,7 +116,7 @@ export default function ProductsPage() {
 
       <div
         ref={scrollRef}
-        className="flex gap-2 overflow-x-auto   scroll-smooth"
+        className="flex gap-2 overflow-x-auto py-4 scroll-smooth"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         <style>{`div::-webkit-scrollbar { display: none; }`}</style>
@@ -145,9 +137,9 @@ export default function ProductsPage() {
                   Guest favorite
                 </span>
               )}
-            <button className="absolute top-2 right-2 text-white z-10 transition-transform duration-200 hover:scale-110">
-  <HeartIcon className="drop-shadow-md" />
-</button>
+              <button className="absolute top-2 right-2 text-white z-10 transition-transform duration-200 hover:scale-110">
+                <HeartIcon className="drop-shadow-md" />
+              </button>
             </div>
             <div className="m-2 text-xs">
               <h2 className="text-xs font-semibold">
@@ -157,7 +149,7 @@ export default function ProductsPage() {
                 {product.price}
                 <span className="mx-2 text-xs text-gray-400">•</span>
                 <span className="text-gray-600 mr-1">★</span>
-                <span className="text-gray-600">{product.rating.toFixed(2)}</span>
+                {product.rating.toFixed(2)}
               </p>
             </div>
           </div>
