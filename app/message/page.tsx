@@ -121,8 +121,9 @@ export default function MessagePage() {
   return (
     <div className="px-5">
       <div className="flex justify-between items-center">
-        <h1 className="text-base lg:text-xl font-bold text-gray-800">
+        <h1 className="text-base lg:text-lg font-bold mb-2 lg:mt-6 flex items-center">
           Massage
+          <ChevronRight className="ml-2 w-5 h-5 text-gray-500" />
         </h1>
         <div className="hidden md:flex space-x-2">
           <button

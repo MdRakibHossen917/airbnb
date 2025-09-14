@@ -104,8 +104,9 @@ export default function OriginalsPage() {
   return (
     <div className="px-7">
       <div className="flex justify-between items-center">
-        <h1 className="text-base lg:text-xl text-gray-800 font-bold lg:mt-6">
+        <h1 className="text-base lg:text-lg font-bold mb-2 lg:mt-6 flex items-center">
           Airbnb Originals
+          <ChevronRight className="ml-2 w-5 h-5 text-gray-500" />
         </h1>
         <div className="hidden md:flex space-x-2">
           <button
