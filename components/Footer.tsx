@@ -3,6 +3,6 @@ import React from 'react'
 
 export default function Footer() {
   return (
-    <div className='my-10 text-center'><InspirationSection/></div>
+    <div className='text-gray-800'><InspirationSection/></div>
   )
 }

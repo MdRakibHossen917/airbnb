@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import Skeleton from "../share/skeleton/page";
 
 type Seoul = {
   _id: string;
@@ -87,7 +88,26 @@ const handlePrev = () => {
 };
 
 
-  if (loading) return <p className="p-6 text-center">Loading...</p>;
+if (loading) {
+  return (
+    <div className="px-5 pt-5 mt-44">
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-bold mt-6">Popular homes in Kuala Lumpur</h1>
+        <div className="flex space-x-2 mb-2">
+          <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
+          <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
+        </div>
+      </div>
+
+      <div className="flex gap-2 overflow-x-auto mt-4">
+        {Array(6).fill(0).map((_, idx) => (
+          <Skeleton key={idx} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 
   return (
     <div className="px-5">
