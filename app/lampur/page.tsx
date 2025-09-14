@@ -87,14 +87,14 @@ export default function BangkokPage() {
 
   const handleNext = () => {
     if (scrollRef.current) {
-      const scrollAmount = window.innerWidth * 0.7;
+      const scrollAmount = scrollRef.current.offsetWidth / 6;
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 
   const handlePrev = () => {
     if (scrollRef.current) {
-      const scrollAmount = window.innerWidth * 0.7;
+      const scrollAmount = scrollRef.current.offsetWidth / 6;
       scrollRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
     }
   };
@@ -129,7 +129,7 @@ export default function BangkokPage() {
   }
 
   return (
-    <div className="px-5 lg:pt-5 lg:mt-36">
+    <div className="px-5">
       <div className="flex justify-between items-center">
         <h1 className="text-base lg:text-lg font-bold mb-2 lg:mt-6">
           Popular homes in Kuala Lumpur
@@ -178,7 +178,7 @@ export default function BangkokPage() {
         {products.map((product) => (
           <div
             key={product._id}
-            className="flex-none w-[calc(50%-10px)] md:w-80 lg:w-96 snap-start relative rounded-xl transition-shadow duration-300"
+            className="flex-none w-[calc(50%-10px)] md:w-1/6 lg:w-1/6 snap-start relative rounded-xl transition-shadow duration-300"
           >
             <div className="relative">
               <img

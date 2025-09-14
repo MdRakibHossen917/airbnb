@@ -99,14 +99,8 @@ export default function ProductsPage() {
             Popular homes in Kuala Lumpur
           </h1>
           <div className="flex space-x-2 mb-2">
-            <button
-              disabled
-              className="w-10 h-10 bg-gray-200 rounded-full"
-            ></button>
-            <button
-              disabled
-              className="w-10 h-10 bg-gray-200 rounded-full"
-            ></button>
+            <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
+            <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
           </div>
         </div>
         <div className="flex gap-4 overflow-x-hidden mt-4">
@@ -121,7 +115,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="px-5 pt-5 mt-35 lg:mt-36">
+    <div className="px-5 pt-5 mt-35 lg:mt-40">
       <div className="flex justify-between items-center">
         <h1 className="text-base lg:text-lg font-bold mb-2 lg:mt-6">
           Popular homes in Kuala Lumpur
@@ -153,6 +147,7 @@ export default function ProductsPage() {
           </button>
         </div>
       </div>
+
       <div
         ref={scrollRef}
         className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 hide-scrollbar"
@@ -166,10 +161,11 @@ export default function ProductsPage() {
             display: none;
           }
         `}</style>
+
         {products.map((product) => (
           <div
             key={product._id}
-            className="flex-none w-[calc(50%-8px)] sm:w-[calc(33.33%-10.66px)] lg:w-80 snap-start relative rounded-xl transition-shadow duration-300 hover:shadow-lg"
+            className="flex-none w-[calc(50%-10px)] md:w-[calc(50%-10px)] lg:w-[calc(16.66%-8px)] snap-start relative rounded-xl transition-shadow duration-300 hover:shadow-lg"
           >
             <div className="relative">
               <img
@@ -187,9 +183,7 @@ export default function ProductsPage() {
               </button>
             </div>
             <div className="m-2 text-xs">
-              <h2 className="text-sm font-semibold truncate">
-                {product.listing_type}
-              </h2>
+              <h2 className="text-sm font-semibold truncate">{product.listing_type}</h2>
               <p className="text-gray-600 truncate">{product.location}</p>
               <p className="text-gray-600 flex items-center">
                 {product.price}
@@ -197,9 +191,7 @@ export default function ProductsPage() {
                   <>
                     <span className="mx-1 text-xs text-gray-400">•</span>
                     <span className="text-gray-600 mr-1">★</span>
-                    <span className="text-gray-600">
-                      {product.rating.toFixed(2)}
-                    </span>
+                    <span className="text-gray-600">{product.rating.toFixed(2)}</span>
                   </>
                 )}
               </p>

@@ -93,7 +93,7 @@ export default function MessagePage() {
 
   if (loading) {
     return (
-      <div className="px-5 pt-5 mt-44">
+      <div className="px-5">
         <div className="flex justify-between items-center">
           <h1 className="text-base lg:text-xl font-bold mt-6">Massage</h1>
           <div className="flex space-x-2 mb-2">
