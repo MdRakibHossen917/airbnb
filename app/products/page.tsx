@@ -157,7 +157,7 @@ export default function ProductsPage() {
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 hide-scrollbar"
+        className="flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 hide-scrollbar"
       >
         <style>{`
           .hide-scrollbar {
