@@ -43,15 +43,14 @@ const Navbar = () => {
       logIn: "Log in",
       anywhere: "Anywhere",
       checkIn: "Check in",
-      checkOut:"Check Out",
+      checkOut: "Check Out",
       addDates: "Add dates",
       guests: "Guests",
       addGuests: "Add guests",
       where: "Where",
       searchDestinations: "Search destinations",
       who: "Who",
-      new:"new"
-
+      new: "new"
     },
     bn: {
       search: "আপনার অনুসন্ধান শুরু করুন",
@@ -66,14 +65,14 @@ const Navbar = () => {
       logIn: "লগ ইন",
       anywhere: "যেকোনো স্থান",
       checkIn: "চেক ইন",
-      checkOut:"চেক আউট",
+      checkOut: "চেক আউট",
       addDates: "তারিখ যোগ করুন",
       guests: "অতিথি",
       addGuests: "অতিথি যোগ করুন",
       where: "কোথায়",
       searchDestinations: "গন্তব্য খুঁজুন",
       who: "কে",
-      new:"নতুন"
+      new: "নতুন"
     }
   };
 
@@ -143,50 +142,65 @@ const Navbar = () => {
       >
         {/* Mobile Navbar - Only shown on mobile devices */}
         <div className="md:hidden py-3">
-          {/* Mobile Search Bar */}
-          <div className="flex items-center w-full px-4 py-3 rounded-full border border-gray-300 bg-white cursor-pointer mb-4 shadow-sm">
-            <Search className="w-4 h-4 text-gray-800 mr-2 flex-shrink-0" />
-            <div className="flex flex-col overflow-hidden">
-              <span className="text-sm font-semibold text-gray-800">
-                {t.search}
-              </span>
+          {scrolled ? (
+            // State 1: Scrolled (small, compact search bar)
+            <div className="flex items-center w-full px-4 py-3 rounded-full border border-gray-300 bg-white cursor-pointer shadow-sm transition-all duration-300">
+              <Search className="w-4 h-4 text-gray-800 mr-2 flex-shrink-0" />
+              <div className="flex flex-col overflow-hidden">
+                <span className="text-sm font-semibold text-gray-800">
+                  {t.search}
+                </span>
+              </div>
             </div>
-          </div>
+          ) : (
+            // State 2: Not Scrolled (full search bar + menu icons)
+            <>
+              {/* Mobile Search Bar */}
+              <div className="flex items-center w-full px-4 py-3 rounded-full border border-gray-300 bg-white cursor-pointer mb-4 shadow-sm">
+                <Search className="w-4 h-4 text-gray-800 mr-2 flex-shrink-0" />
+                <div className="flex flex-col overflow-hidden">
+                  <span className="text-sm font-semibold text-gray-800">
+                    {t.search}
+                  </span>
+                </div>
+              </div>
 
-          {/* Mobile Menu Items */}
-          <div className="flex justify-between items-center w-9/12 mx-auto overflow-x-auto hide-scrollbar">
-            {menu.map((item) => (
-              <button
-                key={item.title}
-                onClick={() => handleClick(item)}
-                className={`relative flex flex-col items-center justify-center gap-1 text-xs font-medium text-gray-700 hover:text-black transition-colors min-w-[80px] px-2 py-1 ${
-                  active === item.url
-                    ? "text-black after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-black"
-                    : ""
-                }`}
-              >
-                {item.icon && (
-                  <div className="relative group mt-3">
-                    <img
-                      src={item.icon}
-                      alt={item.title + " icon"}
-                      className="w-6 h-6 object-contain"
-                      onError={(e) => {
-                        e.currentTarget.src =
-                          "https://placehold.co/32x24/EAEAEA/202020?text=Icon";
-                      }}
-                    />
-                    {item.isNew && (
-                      <span className="absolute -top-4 -right-5 bg-gray-600 text-white text-[10px] px-1 py-0.5 rounded-tl-lg rounded-e-md">
-                      {t.new}
-                      </span>
+              {/* Mobile Menu Items */}
+              <div className="flex justify-between items-center w-9/12 mx-auto overflow-x-auto hide-scrollbar">
+                {menu.map((item) => (
+                  <button
+                    key={item.title}
+                    onClick={() => handleClick(item)}
+                    className={`relative flex flex-col items-center justify-center gap-1 text-xs font-medium text-gray-700 hover:text-black transition-colors min-w-[80px] px-2 py-1 ${
+                      active === item.url
+                        ? "text-black after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-black"
+                        : ""
+                    }`}
+                  >
+                    {item.icon && (
+                      <div className="relative group mt-3">
+                        <img
+                          src={item.icon}
+                          alt={item.title + " icon"}
+                          className="w-6 h-6 object-contain"
+                          onError={(e) => {
+                            e.currentTarget.src =
+                              "https://placehold.co/32x24/EAEAEA/202020?text=Icon";
+                          }}
+                        />
+                        {item.isNew && (
+                          <span className="absolute -top-4 -right-5 bg-gray-600 text-white text-[10px] px-1 py-0.5 rounded-tl-lg rounded-e-md">
+                            {t.new}
+                          </span>
+                        )}
+                      </div>
                     )}
-                  </div>
-                )}
-                <span className="truncate max-w-full">{item.title}</span>
-              </button>
-            ))}
-          </div>
+                    <span className="truncate max-w-full">{item.title}</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Desktop Navbar */}
@@ -201,10 +215,10 @@ const Navbar = () => {
           </div>
 
           {/* Center */}
-          <div className="flex-1 mx-6 flex justify-center">
+          <div className="flex-1 ml-30 flex justify-center">
             {!scrolled ? (
               // Desktop Menu Items
-              <div className="hidden md:flex gap-6">
+              <div className="hidden md:flex gap-4">
                 {menu.map((item) => (
                   <button
                     key={item.title}
@@ -224,7 +238,7 @@ const Navbar = () => {
                         />
                         {item.isNew && (
                           <span className="absolute -top-5 -right-10 bg-gray-600 text-white text-xs px-2 py-0.5 m-1 rounded-tl-lg rounded-e-md transition-transform duration-300 ease-in-out group-hover:scale-110">
-                           {t.new}
+                            {t.new}
                           </span>
                         )}
                       </div>
@@ -256,12 +270,10 @@ const Navbar = () => {
 
                 {/* Check in */}
                 <div className="flex-1 text-center py-2 cursor-pointer transition-colors">
-                  <div className="text-xs text-gray-600 font-semibold">
+                  <div className="text-xs font-semibold text-gray-800">
                     {t.checkIn}
                   </div>
-                  <div className="text-sm text-gray-600 font-medium">
-                    {t.addDates}
-                  </div>
+                  <div className="text-sm text-gray-500 mt-1">{t.addDates}</div>
                 </div>
 
                 <div className="w-px bg-gray-300 h-8"></div>
@@ -269,10 +281,10 @@ const Navbar = () => {
                 {/* Guests + Search */}
                 <div className="flex-1 flex justify-between items-center px-2 py-2 cursor-pointer transition-colors">
                   <div>
-                    <div className="text-xs text-gray-600 font-semibold">
+                    <div className="text-xs font-semibold text-gray-800">
                       {t.guests}
                     </div>
-                    <div className="text-sm text-gray-600 font-medium">
+                    <div className="text-sm text-gray-500 mt-1">
                       {t.addGuests}
                     </div>
                   </div>
@@ -291,22 +303,22 @@ const Navbar = () => {
           >
             {/* Language Switcher */}
             <div className="flex items-center gap-1 mr-2">
-              <button 
-                onClick={() => changeLanguage('en')} 
+              <button
+                onClick={() => changeLanguage('en')}
                 className={`px-2 py-1 text-sm rounded ${
-                  currentLanguage === 'en' 
-                    ? 'bg-gray-200 font-semibold' 
+                  currentLanguage === 'en'
+                    ? 'bg-gray-200 font-semibold'
                     : 'hover:bg-gray-100'
                 }`}
               >
                 EN
               </button>
               <span className="text-gray-300">|</span>
-              <button 
-                onClick={() => changeLanguage('bn')} 
+              <button
+                onClick={() => changeLanguage('bn')}
                 className={`px-2 py-1 text-sm rounded ${
-                  currentLanguage === 'bn' 
-                    ? 'bg-gray-200 font-semibold' 
+                  currentLanguage === 'bn'
+                    ? 'bg-gray-200 font-semibold'
                     : 'hover:bg-gray-100'
                 }`}
               >
@@ -314,7 +326,7 @@ const Navbar = () => {
               </button>
             </div>
 
-            <button className="hidden md:inline px-4 py-2 rounded-full hover:bg-gray-100 transition text-sm">
+            <button className="hidden md:inline px-4 py-2 rounded-full font-semibold hover:bg-gray-100 transition text-sm">
               {t.becomeHost}
             </button>
             <div className="p-2 rounded-full bg-gray-200 hover:bg-gray-200 cursor-pointer transition">
@@ -415,6 +427,8 @@ const Navbar = () => {
                 <div className="text-sm text-gray-500 mt-1">{t.addDates}</div>
               </div>
 
+              <div className="w-px bg-gray-300 h-8"></div>
+
               {/* Check out */}
               {active === "/" && (
                 <div
@@ -428,7 +442,7 @@ const Navbar = () => {
                   }`}
                 >
                   <div className="text-xs font-semibold text-gray-800">
-                   {t.checkOut}
+                    {t.checkOut}
                   </div>
                   <div className="text-sm text-gray-500 mt-1">{t.addDates}</div>
                 </div>

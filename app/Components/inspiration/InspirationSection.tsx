@@ -71,15 +71,15 @@ const InspirationSection = () => {
 
   return (
     <div className="px-4 py-8 bg-gray-50 font-[Inter]">
-      <h2 className="text-3xl font-bold mb-4">
+      <h2 className="text-3xl font-bold mb-4 text-start">
         Inspiration for future getaways
       </h2>
 
       {/* Tabs */}
-      <div className="flex space-x-6 border-b border-gray-300 mb-8">
+      <div className="flex space-x-6 border-b border-gray-300 mb-8 overflow-x-auto">
         <button
           onClick={() => setActiveTab("travelTips")}
-          className={`pb-2 text-sm font-semibold transition-colors duration-200 ${
+          className={`pb-2 text-sm font-semibold transition-colors duration-200 whitespace-nowrap ${
             activeTab === "travelTips"
               ? "border-b-2 border-black text-black"
               : "text-gray-500 hover:text-gray-800"
@@ -89,7 +89,7 @@ const InspirationSection = () => {
         </button>
         <button
           onClick={() => setActiveTab("apartments")}
-          className={`pb-2 text-sm font-semibold transition-colors duration-200 ${
+          className={`pb-2 text-sm font-semibold transition-colors duration-200 whitespace-nowrap ${
             activeTab === "apartments"
               ? "border-b-2 border-black text-black"
               : "text-gray-500 hover:text-gray-800"
@@ -106,10 +106,10 @@ const InspirationSection = () => {
       <div className="border-t border-gray-300 my-6"></div>
 
       {/* Footer sections */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-start">
         <div>
-          <h3 className="font-semibold mb-4 text-start">Support</h3>
-          <ul className="space-y-2 text-sm text-start">
+          <h3 className="font-semibold mb-4">Support</h3>
+          <ul className="space-y-2 text-sm">
             {[
               "Help Center",
               "AirCover",
@@ -129,8 +129,8 @@ const InspirationSection = () => {
         </div>
 
         <div>
-          <h3 className="font-semibold mb-4 text-start">Hosting</h3>
-          <ul className="space-y-2 text-sm text-start">
+          <h3 className="font-semibold mb-4">Hosting</h3>
+          <ul className="space-y-2 text-sm">
             {[
               "Airbnb your home",
               "Airbnb your experience",
@@ -154,8 +154,8 @@ const InspirationSection = () => {
         </div>
 
         <div>
-          <h3 className="font-semibold mb-4 text-start">Airbnb</h3>
-          <ul className="space-y-2 text-sm text-start">
+          <h3 className="font-semibold mb-4">Airbnb</h3>
+          <ul className="space-y-2 text-sm">
             {[
               "Newsroom",
               "Investors",
@@ -182,7 +182,7 @@ export default function Footer() {
       <InspirationSection />
       {/* Lower footer */}
       <div className="bg-gray-100 py-4 px-8 text-sm text-gray-600">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           {/* Left */}
           <div className="flex space-x-4 items-center flex-wrap">
             <span>© 2025 Airbnb, Inc.</span>
