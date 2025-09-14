@@ -1,21 +1,37 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { ChevronRight, ChevronLeft, Upload } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
-type Originals = {
+type Tranning = {
   _id: string;
   title: string;
   listing_type: string;
   price: string;
-  rating?: number;
+  extra: string;
+  rating: number;
   image: string;
   location: string;
   tags: string[];
 };
 
-export default function OriginalsPage() {
-  const [products, setProducts] = useState<Originals[]>([]);
+const HeartIcon = ({ filled = false, className = "" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill={filled ? "currentColor" : "#4B5563"}
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={`w-6 h-6 transition-colors duration-300 ${className}`}
+  >
+    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+  </svg>
+);
+
+export default function TranningPage() {
+  const [products, setProducts] = useState<Tranning[]>([]);
   const [loading, setLoading] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -32,8 +48,8 @@ export default function OriginalsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/originals");
-        const data: Originals[] = await res.json();
+        const res = await fetch("/api/tranning");
+        const data: Tranning[] = await res.json();
         setProducts(data);
         setLoading(false);
       } catch (err) {
@@ -47,6 +63,7 @@ export default function OriginalsPage() {
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
     checkScroll();
@@ -74,33 +91,37 @@ export default function OriginalsPage() {
   if (loading) return <p className="p-6 text-center">Loading...</p>;
 
   return (
-    <div className="px-7">
-      {/* Header */}
+    <div className="px-5">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl text-gray-800 font-bold mt-6">Airbnb Originals</h1>
+        <h1 className="text-xl font-bold text-gray-800">Traning</h1>
         <div className="flex space-x-2">
           <button
             onClick={handlePrev}
             disabled={!canScrollLeft}
-            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200  mt-6 ${
-              canScrollLeft ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"
-            }`}
+            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
+              ${
+                canScrollLeft
+                  ? "bg-gray-100 hover:bg-gray-200"
+                  : "bg-gray-200 cursor-not-allowed"
+              }`}
           >
             <ChevronLeft className="h-6 w-6 text-gray-500" />
           </button>
           <button
             onClick={handleNext}
             disabled={!canScrollRight}
-            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200  mt-6 ${
-              canScrollRight ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"
-            }`}
+            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
+              ${
+                canScrollRight
+                  ? "bg-gray-100 hover:bg-gray-200"
+                  : "bg-gray-200 cursor-not-allowed"
+              }`}
           >
             <ChevronRight className="h-6 w-6 text-gray-500" />
           </button>
         </div>
       </div>
 
-      {/* Cards container */}
       <div
         ref={scrollRef}
         className="flex gap-2 overflow-x-auto py-4 scroll-smooth"
@@ -111,37 +132,50 @@ export default function OriginalsPage() {
         {products.map((product) => (
           <div
             key={product._id}
-            className="flex-none w-60 sm:w-56 md:w-52 lg:w-52 relative rounded-xl  hover:shadow-lg transition-shadow duration-300 "
+            className="flex-none w-53 relative rounded-xl transition-shadow duration-300"
           >
             <div className="relative">
               <img
                 src={product.image}
-                alt={product.title}
+                alt={product.listing_type}
                 className="w-full h-52 object-cover rounded-3xl"
               />
-              {product.tags?.includes("Guest favorite") && (
-                <span className="absolute top-3 left-3 bg-white/80 text-gray-800 px-2 py-1 text-xs font-semibold rounded-full shadow-md">
-                  Original
-                </span>
-              )}
-              {/* Upload Icon Button */}
-              <button className="absolute top-2 right-2 w-8 h-8 p-1 bg-gray-100 rounded-full flex items-center justify-center text-gray-700 shadow-md z-10 transition-transform duration-200 hover:scale-110 hover:bg-gray-200">
-                <Upload size={18} />
+
+              <button className="absolute top-2 right-2 text-white z-10 transition-transform duration-200 hover:scale-110">
+                <HeartIcon className="drop-shadow-md" />
               </button>
             </div>
-            {/* Card info */}
             <div className="p-2 text-xs">
-              <h2 className="font-semibold mb-1">{product.title}</h2>
-              <p className="text-gray-600 mb-1">
-             {product.location}
-              </p>
-              <p className="text-gray-600 flex items-center">
-                {product.price}
-                <span className="mx-2 text-xs text-gray-400">•</span>
-                <span className="text-gray-600 mr-1">★</span>
-                {product.rating ? product.rating.toFixed(2) : "N/A"}
-              </p>
-            </div>
+  <h2 className="font-semibold line-clamp-2 overflow-hidden text-ellipsis mb-1">
+    {product.listing_type}
+  </h2>
+
+  <p className="text-gray-600 flex items-center flex-wrap">
+     {product.location && (
+      <>
+        
+        <span>{product.location}</span>
+      </>
+    )}
+    <span>{product.price}</span>
+    
+   
+
+    {product.rating && (
+      <>
+        <span className="mx-2 text-xs text-gray-400">•</span>
+        <span className="text-gray-600 mr-1">★</span>
+        {product.rating.toFixed(1)}
+      </>
+    )}
+  </p>
+
+  {product.extra && (
+    <p className="text-gray-500 text-[11px] mt-1 flex items-center">
+      {product.extra}
+    </p>
+  )}
+</div>
           </div>
         ))}
       </div>

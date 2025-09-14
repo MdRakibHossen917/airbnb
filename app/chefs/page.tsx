@@ -5,10 +5,10 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 
 type Chefs = {
   _id: string;
-  title:string;
+  title: string;
   listing_type: string;
   price: string;
-  extra:string;
+  extra: string;
   rating: number;
   image: string;
   location: string;
@@ -66,7 +66,7 @@ export default function ChefsPage() {
 
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
-      checkScroll();
+    checkScroll();
 
     return () => {
       el.removeEventListener("scroll", checkScroll);
@@ -74,44 +74,48 @@ export default function ChefsPage() {
     };
   }, [products]);
 
- const handleNext = () => {
-  if (scrollRef.current) {
-    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    checkScroll();  
-  }
-};
+  const handleNext = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+      checkScroll();
+    }
+  };
 
-const handlePrev = () => {
-  if (scrollRef.current) {
-    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    checkScroll();   
-  }
-};
-
+  const handlePrev = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+      checkScroll();
+    }
+  };
 
   if (loading) return <p className="p-6 text-center">Loading...</p>;
 
   return (
     <div className="px-5">
-      
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold text-gray-800">Chefs
-
-</h1>
+        <h1 className="text-xl font-bold text-gray-800 mt-6">Chefs</h1>
         <div className="flex space-x-2">
           <button
             onClick={handlePrev}
             disabled={!canScrollLeft}
-            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
-              ${canScrollLeft ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
+            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200  mt-6 
+              ${
+                canScrollLeft
+                  ? "bg-gray-100 hover:bg-gray-200"
+                  : "bg-gray-200 cursor-not-allowed"
+              }`}
           >
             <ChevronLeft className="h-6 w-6 text-gray-500" />
           </button>
           <button
             onClick={handleNext}
             disabled={!canScrollRight}
-            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
-              ${canScrollRight ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
+            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200 mt-6
+              ${
+                canScrollRight
+                  ? "bg-gray-100 hover:bg-gray-200"
+                  : "bg-gray-200 cursor-not-allowed"
+              }`}
           >
             <ChevronRight className="h-6 w-6 text-gray-500" />
           </button>
@@ -126,33 +130,33 @@ const handlePrev = () => {
         <style>{`div::-webkit-scrollbar { display: none; }`}</style>
 
         {products.map((product) => (
-          <div key={product._id} className="flex-none w-53 relative rounded-xl transition-shadow duration-300">
+          <div
+            key={product._id}
+            className="flex-none w-53 relative rounded-xl transition-shadow duration-300"
+          >
             <div className="relative">
               <img
                 src={product.image}
                 alt={product.listing_type}
                 className="w-full h-52 object-cover rounded-3xl"
               />
-             
+
               <button className="absolute top-2 right-2 text-white z-10 transition-transform duration-200 hover:scale-110">
                 <HeartIcon className="drop-shadow-md" />
               </button>
             </div>
             <div className="p-2 text-xs">
               <h2 className="font-semibold mb-1">{product.listing_type}</h2>
-             
+
               <p className="text-gray-600 flex items-center">
                 {product.price}
-                
-                
+
                 <span className="mx-2 text-xs text-gray-400">•</span>
-               
+
                 <span className="text-gray-600 mr-1">★</span>
                 {product.rating ? product.rating.toFixed(1) : "N/A"}
               </p>
-              <p className="text-gray-600 flex items-center">
-                  {product.extra}
-              </p>
+              <p className="text-gray-600 flex items-center">{product.extra}</p>
             </div>
           </div>
         ))}

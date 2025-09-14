@@ -5,7 +5,7 @@ import InBankokPage from "../inbangkok/page";
 
 export default function ExperiencesPage() {
   return (
-    <div>
+    <div className="mt-47">
       
       <OriginalsPage/>
       <LampurPage/>
