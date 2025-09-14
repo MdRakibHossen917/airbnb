@@ -20,19 +20,72 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState<MenuItem | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState<'en' | 'bn'>('en');
 
   const menuRef = useRef<HTMLDivElement>(null);
 
+  const changeLanguage = (lang: 'en' | 'bn') => {
+    setCurrentLanguage(lang);
+    localStorage.setItem('language', lang);
+  };
+
+  const translations = {
+    en: {
+      search: "Start your search",
+      homes: "Homes",
+      experiences: "Experiences",
+      services: "Services",
+      becomeHost: "Become a host",
+      helpCenter: "Help Center",
+      findCoHost: "Find a co-host",
+      giftCard: "Gift card",
+      signUp: "Sign up",
+      logIn: "Log in",
+      anywhere: "Anywhere",
+      checkIn: "Check in",
+      checkOut:"Check Out",
+      addDates: "Add dates",
+      guests: "Guests",
+      addGuests: "Add guests",
+      where: "Where",
+      searchDestinations: "Search destinations",
+      who: "Who"
+    },
+    bn: {
+      search: "আপনার অনুসন্ধান শুরু করুন",
+      homes: "বাসা",
+      experiences: "অভিজ্ঞতা",
+      services: "সেবা",
+      becomeHost: "হোস্ট হোন",
+      helpCenter: "সহায়তা কেন্দ্র",
+      findCoHost: "সহ-হোস্ট খুঁজুন",
+      giftCard: "গিফট কার্ড",
+      signUp: "নিবন্ধন",
+      logIn: "লগ ইন",
+      anywhere: "যেকোনো স্থান",
+      checkIn: "চেক ইন",
+      checkOut:"চেক আউট",
+      addDates: "তারিখ যোগ করুন",
+      guests: "অতিথি",
+      addGuests: "অতিথি যোগ করুন",
+      where: "কোথায়",
+      searchDestinations: "গন্তব্য খুঁজুন",
+      who: "কে"
+    }
+  };
+
+  const t = translations[currentLanguage];
+
   const menu: MenuItem[] = [
-    { title: "Homes", url: "/", icon: "/images/imageHome.png" },
+    { title: t.homes, url: "/", icon: "/images/imageHome.png" },
     {
-      title: "Experiences",
+      title: t.experiences,
       url: "/experiences",
       icon: "/images/imageExperiences.avif",
       isNew: true,
     },
     {
-      title: "Services",
+      title: t.services,
       url: "/services",
       icon: "/images/imageServices.avif",
       isNew: true,
@@ -49,6 +102,13 @@ const Navbar = () => {
   const handleSearchClick = (section: string) => {
     setActiveSearch(section);
   };
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage === 'en' || savedLanguage === 'bn') {
+      setCurrentLanguage(savedLanguage);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80);
@@ -85,7 +145,7 @@ const Navbar = () => {
             <Search className="w-4 h-4 text-gray-800 mr-2 flex-shrink-0" />
             <div className="flex flex-col overflow-hidden">
               <span className="text-sm font-semibold text-gray-800">
-                Start your search
+                {t.search}
               </span>
             </div>
           </div>
@@ -185,7 +245,7 @@ const Navbar = () => {
                     />
                   )}
                   <div className="text-xs text-gray-600 font-semibold">
-                    {selectedMenu?.title || "Anywhere"}
+                    {selectedMenu?.title || t.anywhere}
                   </div>
                 </div>
 
@@ -194,10 +254,10 @@ const Navbar = () => {
                 {/* Check in */}
                 <div className="flex-1 text-center py-2 cursor-pointer transition-colors">
                   <div className="text-xs text-gray-600 font-semibold">
-                    Check in
+                    {t.checkIn}
                   </div>
                   <div className="text-sm text-gray-600 font-medium">
-                    Add dates
+                    {t.addDates}
                   </div>
                 </div>
 
@@ -207,10 +267,10 @@ const Navbar = () => {
                 <div className="flex-1 flex justify-between items-center px-2 py-2 cursor-pointer transition-colors">
                   <div>
                     <div className="text-xs text-gray-600 font-semibold">
-                      Guests
+                      {t.guests}
                     </div>
                     <div className="text-sm text-gray-600 font-medium">
-                      Add guests
+                      {t.addGuests}
                     </div>
                   </div>
                   <div className="bg-red-500 p-2 rounded-full text-white flex items-center justify-center">
@@ -226,8 +286,33 @@ const Navbar = () => {
             ref={menuRef}
             className="relative flex items-center gap-2 text-gray-800"
           >
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1 mr-2">
+              <button 
+                onClick={() => changeLanguage('en')} 
+                className={`px-2 py-1 text-sm rounded ${
+                  currentLanguage === 'en' 
+                    ? 'bg-gray-200 font-semibold' 
+                    : 'hover:bg-gray-100'
+                }`}
+              >
+                EN
+              </button>
+              <span className="text-gray-300">|</span>
+              <button 
+                onClick={() => changeLanguage('bn')} 
+                className={`px-2 py-1 text-sm rounded ${
+                  currentLanguage === 'bn' 
+                    ? 'bg-gray-200 font-semibold' 
+                    : 'hover:bg-gray-100'
+                }`}
+              >
+                BN
+              </button>
+            </div>
+
             <button className="hidden md:inline px-4 py-2 rounded-full hover:bg-gray-100 transition text-sm">
-              Become a host
+              {t.becomeHost}
             </button>
             <div className="p-2 rounded-full bg-gray-200 hover:bg-gray-200 cursor-pointer transition">
               <Globe className="w-5 h-5" />
@@ -246,33 +331,33 @@ const Navbar = () => {
                 <div className="py-2 border-b border-gray-200">
                   <div className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-black cursor-pointer hover:bg-gray-100 rounded-lg">
                     <HelpCircle className="w-4 h-4 text-gray-600" />
-                    Help Center
+                    {t.helpCenter}
                   </div>
                   <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
                     <Users className="w-4 h-4 text-gray-600" />
-                    Find a co-host
+                    {t.findCoHost}
                   </div>
                 </div>
 
                 <div className="py-2 border-b border-gray-200">
                   <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
                     <Home className="w-4 h-4 text-gray-600" />
-                    Become a host
+                    {t.becomeHost}
                   </div>
                   <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
                     <Gift className="w-4 h-4 text-gray-600" />
-                    Gift card
+                    {t.giftCard}
                   </div>
                 </div>
 
                 <div className="py-2">
                   <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
                     <UserPlus className="w-4 h-4 text-gray-600" />
-                    Sign up
+                    {t.signUp}
                   </div>
                   <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
                     <LogIn className="w-4 h-4 text-gray-600" />
-                    Log in
+                    {t.logIn}
                   </div>
                 </div>
               </div>
@@ -288,7 +373,6 @@ const Navbar = () => {
                 activeSearch ? "bg-gray-200" : "bg-white"
               }`}
             >
-              {/* Search inputs remain the same */}
               {/* Where */}
               <div
                 onClick={() => handleSearchClick("where")}
@@ -301,11 +385,11 @@ const Navbar = () => {
                 }`}
               >
                 <div className="text-xs font-semibold ml-4 text-gray-800">
-                  Where
+                  {t.where}
                 </div>
                 <input
                   type="text"
-                  placeholder="Search destinations"
+                  placeholder={t.searchDestinations}
                   className="w-full text-sm text-gray-500 bg-transparent outline-none ml-4 mt-1"
                   onFocus={() => handleSearchClick("where")}
                 />
@@ -323,9 +407,9 @@ const Navbar = () => {
                 }`}
               >
                 <div className="text-xs font-semibold text-gray-800">
-                  Check in
+                  {t.checkIn}
                 </div>
-                <div className="text-sm text-gray-500 mt-1">Add dates</div>
+                <div className="text-sm text-gray-500 mt-1">{t.addDates}</div>
               </div>
 
               {/* Check out */}
@@ -341,9 +425,9 @@ const Navbar = () => {
                   }`}
                 >
                   <div className="text-xs font-semibold text-gray-800">
-                    Check out
+                   {t.checkOut}
                   </div>
-                  <div className="text-sm text-gray-500 mt-1">Add dates</div>
+                  <div className="text-sm text-gray-500 mt-1">{t.addDates}</div>
                 </div>
               )}
 
@@ -359,8 +443,8 @@ const Navbar = () => {
                 }`}
               >
                 <div>
-                  <div className="text-xs font-semibold text-gray-800">Who</div>
-                  <div className="text-sm text-gray-500 mt-1">Add guests</div>
+                  <div className="text-xs font-semibold text-gray-800">{t.who}</div>
+                  <div className="text-sm text-gray-500 mt-1">{t.addGuests}</div>
                 </div>
                 <button className="flex-shrink-0 bg-red-500 hover:bg-red-600 p-2 rounded-full transition-colors duration-300 ease-in-out ml-2 flex items-center justify-center gap-2">
                   <Search className="w-4 h-4 text-white" />
