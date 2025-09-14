@@ -49,7 +49,9 @@ const Navbar = () => {
       addGuests: "Add guests",
       where: "Where",
       searchDestinations: "Search destinations",
-      who: "Who"
+      who: "Who",
+      new:"new"
+
     },
     bn: {
       search: "আপনার অনুসন্ধান শুরু করুন",
@@ -70,7 +72,8 @@ const Navbar = () => {
       addGuests: "অতিথি যোগ করুন",
       where: "কোথায়",
       searchDestinations: "গন্তব্য খুঁজুন",
-      who: "কে"
+      who: "কে",
+      new:"নতুন"
     }
   };
 
@@ -175,7 +178,7 @@ const Navbar = () => {
                     />
                     {item.isNew && (
                       <span className="absolute -top-4 -right-5 bg-gray-600 text-white text-[10px] px-1 py-0.5 rounded-tl-lg rounded-e-md">
-                        New
+                      {t.new}
                       </span>
                     )}
                   </div>
@@ -221,7 +224,7 @@ const Navbar = () => {
                         />
                         {item.isNew && (
                           <span className="absolute -top-5 -right-10 bg-gray-600 text-white text-xs px-2 py-0.5 m-1 rounded-tl-lg rounded-e-md transition-transform duration-300 ease-in-out group-hover:scale-110">
-                            New
+                           {t.new}
                           </span>
                         )}
                       </div>
