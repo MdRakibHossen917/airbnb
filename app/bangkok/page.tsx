@@ -112,25 +112,25 @@ if (loading) {
   return (
     <div className="px-5">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold">Popular homes in Bangkok</h1>
-        <div className="flex space-x-2">
-          <button
-            onClick={handlePrev}
-            disabled={!canScrollLeft}
-            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
-              ${canScrollLeft ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
-          >
-            <ChevronLeft className="h-6 w-6 text-gray-500" />
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={!canScrollRight}
-            className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
-              ${canScrollRight ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
-          >
-            <ChevronRight className="h-6 w-6 text-gray-500" />
-          </button>
-        </div>
+        <h1 className="text-base lg:text-lg font-bold">Popular homes in Bangkok</h1>
+       <div className="hidden md:flex space-x-2">
+  <button
+    onClick={handlePrev}
+    disabled={!canScrollLeft}
+    className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
+      ${canScrollLeft ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
+  >
+    <ChevronLeft className="h-6 w-6 text-gray-500" />
+  </button>
+  <button
+    onClick={handleNext}
+    disabled={!canScrollRight}
+    className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
+      ${canScrollRight ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
+  >
+    <ChevronRight className="h-6 w-6 text-gray-500" />
+  </button>
+</div>
       </div>
 
       <div

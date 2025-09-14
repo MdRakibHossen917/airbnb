@@ -4,9 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import Skeleton from "../share/skeleton/page";
 
-type Lampur = {
+type Busan = {
   _id: string;
-  title:string;
   listing_type: string;
   price: string;
   rating: number;
@@ -30,8 +29,8 @@ const HeartIcon = ({ filled = false, className = "" }) => (
   </svg>
 );
 
-export default function LampurPage() {
-  const [products, setProducts] = useState<Lampur[]>([]);
+export default function BusanPage() {
+  const [products, setProducts] = useState<Busan[]>([]);
   const [loading, setLoading] = useState(true);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -48,8 +47,8 @@ export default function LampurPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/lampur");
-        const data: Lampur[] = await res.json();
+        const res = await fetch("/api/busan");
+        const data: Busan[] = await res.json();
         setProducts(data);
         setLoading(false);
       } catch (err) {
@@ -74,17 +73,17 @@ export default function LampurPage() {
     };
   }, [products]);
 
- const handleNext = () => {
+const handleNext = () => {
   if (scrollRef.current) {
     scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    checkScroll();  
+    checkScroll();   
   }
 };
 
 const handlePrev = () => {
   if (scrollRef.current) {
     scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    checkScroll();   
+    checkScroll();  
   }
 };
 
@@ -93,7 +92,7 @@ if (loading) {
   return (
     <div className="px-5 pt-5 mt-44">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold mt-6">Popular with travelers from your area</h1>
+        <h1 className="text-xl font-bold mt-6">Popular homes in Busan</h1>
         <div className="flex space-x-2 mb-2">
           <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
           <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
@@ -112,10 +111,9 @@ if (loading) {
 
   return (
     <div className="px-5">
-        <h1 className="text-base lg:text-3xl font-bold text-gray-800 my-4">Popular with travelers from your area</h1>
       <div className="flex justify-between items-center">
-        <h1 className="text-base lg:text-xl font-bold text-gray-800">Experiences in Kuala Lumpur</h1>
-         <div className="hidden md:flex space-x-2">
+        <h1 className="text-base lg:text-xl font-bold">Popular homes in Busan</h1>
+        <div className="hidden md:flex space-x-2">
           <button
             onClick={handlePrev}
             disabled={!canScrollLeft}
@@ -160,23 +158,22 @@ if (loading) {
               />
               {product.tags?.includes("Guest favorite") && (
                 <span className="absolute top-3 left-3 bg-white/80 text-gray-800 px-2 py-1 text-xs font-semibold rounded-full shadow-md">
-                  Popular
+                  Guest favorite
                 </span>
               )}
               <button className="absolute top-2 right-2 text-white z-10 transition-transform duration-200 hover:scale-110">
                 <HeartIcon className="drop-shadow-md" />
               </button>
             </div>
-            <div className="p-2 text-xs">
-              <h2 className="font-semibold mb-1">{product.title}</h2>
-              <p className="text-gray-600 mb-1">
-             {product.location}
-              </p>
+            <div className="m-2 text-xs">
+              <h2 className="text-xs font-semibold">
+                {product.listing_type} in {product.location}
+              </h2>
               <p className="text-gray-600 flex items-center">
                 {product.price}
                 <span className="mx-2 text-xs text-gray-400">•</span>
                 <span className="text-gray-600 mr-1">★</span>
-                {product.rating ? product.rating.toFixed(2) : "N/A"}
+                {product.rating.toFixed(2)}
               </p>
             </div>
           </div>

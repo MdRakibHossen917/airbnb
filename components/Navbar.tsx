@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { Globe, Menu, Search } from "lucide-react";
 import { HelpCircle, Users, UserPlus, LogIn, Gift, Home } from "lucide-react";
 
-
 interface MenuItem {
   title: string;
   url: string;
@@ -22,7 +21,7 @@ const Navbar = () => {
   const [selectedMenu, setSelectedMenu] = useState<MenuItem | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuRef = useRef<HTMLDivElement>(null); // 👈 dropdown ref
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const menu: MenuItem[] = [
     { title: "Homes", url: "/", icon: "/images/imageHome.png" },
@@ -57,7 +56,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 👉 Outside click handler
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -68,7 +66,6 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Calculate menu width dynamically
   const menuItemWidth = 160;
   const menuGap = 24;
   const totalMenuWidth =
@@ -76,21 +73,74 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="w-full bg-gray-50 shadow-sm fixed top-0 left-0 z-50 transition-all duration-300 px-4">
-        <div className="container mx-auto flex items-center justify-between py-4">
+      <nav
+        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 px-4 ${
+          scrolled ? "bg-white shadow-sm" : "bg-gray-50"
+        }`}
+      >
+        {/* Mobile Navbar - Only shown on mobile devices */}
+        <div className="md:hidden py-3">
+          {/* Mobile Search Bar */}
+          <div className="flex items-center w-full px-4 py-3 rounded-full border border-gray-300 bg-white cursor-pointer mb-4 shadow-sm">
+            <Search className="w-4 h-4 text-gray-800 mr-2 flex-shrink-0" />
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-sm font-semibold text-gray-800">
+                Start your search
+              </span>
+            </div>
+          </div>
+
+          {/* Mobile Menu Items */}
+          <div className="flex justify-between items-center w-9/12 mx-auto overflow-x-auto hide-scrollbar">
+            {menu.map((item) => (
+              <button
+                key={item.title}
+                onClick={() => handleClick(item)}
+                className={`relative flex flex-col items-center justify-center gap-1 text-xs font-medium text-gray-700 hover:text-black transition-colors min-w-[80px] px-2 py-1 ${
+                  active === item.url
+                    ? "text-black after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-black"
+                    : ""
+                }`}
+              >
+                {item.icon && (
+                  <div className="relative group mt-3">
+                    <img
+                      src={item.icon}
+                      alt={item.title + " icon"}
+                      className="w-6 h-6 object-contain"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          "https://placehold.co/32x24/EAEAEA/202020?text=Icon";
+                      }}
+                    />
+                    {item.isNew && (
+                      <span className="absolute -top-4 -right-5 bg-gray-600 text-white text-[10px] px-1 py-0.5 rounded-tl-lg rounded-e-md">
+                        New
+                      </span>
+                    )}
+                  </div>
+                )}
+                <span className="truncate max-w-full">{item.title}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop Navbar */}
+        <div className="hidden md:flex container mx-auto items-center justify-between py-4">
           {/* Logo */}
-          <div className="flex items-center gap-2 mr-30">
+          <div className="flex items-center gap-2 mr-8">
             <img
               src="/images/logo.png"
               alt="Logo"
-              className="w-25 object-contain"
+              className="w-28 h-8 object-contain"
             />
           </div>
 
           {/* Center */}
           <div className="flex-1 mx-6 flex justify-center">
             {!scrolled ? (
-              // Menu Items
+              // Desktop Menu Items
               <div className="hidden md:flex gap-6">
                 {menu.map((item) => (
                   <button
@@ -176,15 +226,15 @@ const Navbar = () => {
             ref={menuRef}
             className="relative flex items-center gap-2 text-gray-800"
           >
-            <button className="hidden md:inline px-4 py-2 rounded-full hover:bg-gray-100 transition">
+            <button className="hidden md:inline px-4 py-2 rounded-full hover:bg-gray-100 transition text-sm">
               Become a host
             </button>
-            <div className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 cursor-pointer transition">
+            <div className="p-2 rounded-full bg-gray-200 hover:bg-gray-200 cursor-pointer transition">
               <Globe className="w-5 h-5" />
             </div>
             <div
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 cursor-pointer transition"
+              className="p-2 rounded-full bg-gray-200 hover:bg-gray-200 cursor-pointer transition"
             >
               <Menu className="w-5 h-5" />
             </div>
@@ -192,54 +242,53 @@ const Navbar = () => {
             {/* Dropdown */}
             {isMenuOpen && (
               <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-gray-200 p-2">
-    {/* Top Section */}
-    <div className="py-2 border-b border-gray-200">
-      <div className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-black cursor-pointer hover:bg-gray-100 rounded-lg">
-        <HelpCircle className="w-4 h-4 text-gray-600" />
-        Help Center
-      </div>
-      <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
-        <Users className="w-4 h-4 text-gray-600" />
-        Find a co-host
-      </div>
-    </div>
+                {/* Dropdown content */}
+                <div className="py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-black cursor-pointer hover:bg-gray-100 rounded-lg">
+                    <HelpCircle className="w-4 h-4 text-gray-600" />
+                    Help Center
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
+                    <Users className="w-4 h-4 text-gray-600" />
+                    Find a co-host
+                  </div>
+                </div>
 
-    {/* Middle Section */}
-    <div className="py-2 border-b border-gray-200">
-      <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
-        <Home className="w-4 h-4 text-gray-600" />
-        Become a host
-      </div>
-      <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
-        <Gift className="w-4 h-4 text-gray-600" />
-        Gift card
-      </div>
-    </div>
+                <div className="py-2 border-b border-gray-200">
+                  <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
+                    <Home className="w-4 h-4 text-gray-600" />
+                    Become a host
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
+                    <Gift className="w-4 h-4 text-gray-600" />
+                    Gift card
+                  </div>
+                </div>
 
-    {/* Bottom Section */}
-    <div className="py-2">
-      <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
-        <UserPlus className="w-4 h-4 text-gray-600" />
-        Sign up
-      </div>
-      <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
-        <LogIn className="w-4 h-4 text-gray-600" />
-        Log in
-      </div>
-    </div>
-  </div>
+                <div className="py-2">
+                  <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
+                    <UserPlus className="w-4 h-4 text-gray-600" />
+                    Sign up
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2 text-sm text-gray-500 cursor-pointer hover:bg-gray-100 rounded-lg">
+                    <LogIn className="w-4 h-4 text-gray-600" />
+                    Log in
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
 
-        {/* Bottom Search Bar - hide on scroll */}
+        {/* Bottom Search Bar - hide on scroll (Desktop only) */}
         {!scrolled && (
-          <div className="mt-4 mx-auto max-w-4xl px-4 mb-10">
+          <div className="hidden md:block mt-4 mx-auto max-w-4xl px-4 mb-10">
             <div
               className={`flex items-center border border-gray-300 rounded-full shadow-sm overflow-hidden transition-all duration-300 ease-in-out hover:shadow-md ${
                 activeSearch ? "bg-gray-200" : "bg-white"
               }`}
             >
+              {/* Search inputs remain the same */}
               {/* Where */}
               <div
                 onClick={() => handleSearchClick("where")}
@@ -324,6 +373,17 @@ const Navbar = () => {
           </div>
         )}
       </nav>
+
+      {/* Add CSS for hiding scrollbar on mobile menu */}
+      <style jsx>{`
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };

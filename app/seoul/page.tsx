@@ -65,7 +65,7 @@ export default function SeoulPage() {
 
     el.addEventListener("scroll", checkScroll);
     window.addEventListener("resize", checkScroll);
-      checkScroll();
+    checkScroll();
 
     return () => {
       el.removeEventListener("scroll", checkScroll);
@@ -73,52 +73,64 @@ export default function SeoulPage() {
     };
   }, [products]);
 
-const handleNext = () => {
-  if (scrollRef.current) {
-    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    checkScroll();   
-  }
-};
+  const handleNext = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+      checkScroll();
+    }
+  };
 
-const handlePrev = () => {
-  if (scrollRef.current) {
-    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    checkScroll();  
-  }
-};
+  const handlePrev = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+      checkScroll();
+    }
+  };
 
+  if (loading) {
+    return (
+      <div className="px-5 pt-5 mt-44">
+        <div className="flex justify-between items-center">
+          <h1 className=" text-base lg:text-lg font-bold mt-6">
+            Homes in Seoul
+          </h1>
+          <div className="flex space-x-2 mb-2">
+            <button
+              disabled
+              className="w-10 h-10 bg-gray-200 rounded-full"
+            ></button>
+            <button
+              disabled
+              className="w-10 h-10 bg-gray-200 rounded-full"
+            ></button>
+          </div>
+        </div>
 
-if (loading) {
-  return (
-    <div className="px-5 pt-5 mt-44">
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold mt-6">Popular homes in Kuala Lumpur</h1>
-        <div className="flex space-x-2 mb-2">
-          <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
-          <button disabled className="w-10 h-10 bg-gray-200 rounded-full"></button>
+        <div className="flex gap-2 overflow-x-auto mt-4">
+          {Array(6)
+            .fill(0)
+            .map((_, idx) => (
+              <Skeleton key={idx} />
+            ))}
         </div>
       </div>
-
-      <div className="flex gap-2 overflow-x-auto mt-4">
-        {Array(6).fill(0).map((_, idx) => (
-          <Skeleton key={idx} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
+    );
+  }
 
   return (
     <div className="px-5">
       <div className="flex justify-between items-center">
         <h1 className="text-xl font-bold">Homes in Seoul</h1>
-        <div className="flex space-x-2">
+        <div className="hidden md:flex space-x-2">
           <button
             onClick={handlePrev}
             disabled={!canScrollLeft}
             className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
-              ${canScrollLeft ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
+      ${
+        canScrollLeft
+          ? "bg-gray-100 hover:bg-gray-200"
+          : "bg-gray-200 cursor-not-allowed"
+      }`}
           >
             <ChevronLeft className="h-6 w-6 text-gray-500" />
           </button>
@@ -126,7 +138,11 @@ if (loading) {
             onClick={handleNext}
             disabled={!canScrollRight}
             className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200
-              ${canScrollRight ? "bg-gray-100 hover:bg-gray-200" : "bg-gray-200 cursor-not-allowed"}`}
+      ${
+        canScrollRight
+          ? "bg-gray-100 hover:bg-gray-200"
+          : "bg-gray-200 cursor-not-allowed"
+      }`}
           >
             <ChevronRight className="h-6 w-6 text-gray-500" />
           </button>
@@ -141,7 +157,10 @@ if (loading) {
         <style>{`div::-webkit-scrollbar { display: none; }`}</style>
 
         {products.map((product) => (
-          <div key={product._id} className="flex-none w-53 relative rounded-xl transition-shadow duration-300">
+          <div
+            key={product._id}
+            className="flex-none w-53 relative rounded-xl transition-shadow duration-300"
+          >
             <div className="relative">
               <img
                 src={product.image}
