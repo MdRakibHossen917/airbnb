@@ -1,4 +1,4 @@
-# 🏡 Airbnb Clone
+# 🏡 Airbnb 
 
 A modern Airbnb-inspired clone built with **Next.js 14 (App Router)**, **TypeScript**, and **Tailwind CSS**.  
 This project replicates the look and feel of Airbnb, including navigation, featured listings, and responsive design.
