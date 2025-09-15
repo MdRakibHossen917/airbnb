@@ -48,7 +48,7 @@ export default function MelbournePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/seoul");
+        const res = await fetch("/api/melbourne");
         const data: Melbourne[] = await res.json();
         setProducts(data);
         setLoading(false);

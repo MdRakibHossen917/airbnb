@@ -48,7 +48,7 @@ export default function OsakaPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/seoul");
+        const res = await fetch("/api/osaka");
         const data: Osaka[] = await res.json();
         setProducts(data);
         setLoading(false);

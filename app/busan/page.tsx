@@ -48,7 +48,7 @@ export default function BusanPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/seoul");
+        const res = await fetch("/api/busan");
         const data: Busan[] = await res.json();
         setProducts(data);
         setLoading(false);

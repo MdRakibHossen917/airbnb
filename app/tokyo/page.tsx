@@ -48,7 +48,7 @@ export default function TokyoPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/seoul");
+        const res = await fetch("/api/tokyo");
         const data: Tokyo[] = await res.json();
         setProducts(data);
         setLoading(false);
